@@ -82,7 +82,7 @@ function App() {
         {gridData[0].map((r, i) => (
           <div
             onContextMenu={(e) => openContextMenu(e, i)}
-            className="cell"
+            className="cell cell-name"
             onClick={() => sortByCol(i)}
           >
             {numToColumn(i + 1)}
@@ -100,7 +100,7 @@ function App() {
       </section>
       {gridData.map((row, rowIndex) => (
         <div className="row">
-          <input value={rowIndex + 1} className="cell" readOnly />
+          <input value={rowIndex + 1} className="cell cell-name" readOnly />
           {row.map((col, colIndex) => (
             <Cell
               key={`${rowIndex}-${colIndex}`}
