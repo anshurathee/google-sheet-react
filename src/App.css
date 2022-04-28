@@ -27,3 +27,10 @@ li {
   width: 100%;
   display: flex;
 }
+.sort-icon {
+  width: 10px;
+  height: 10px;
+}
+.invert-img {
+  transform: rotate(180deg);
+}

@@ -4,9 +4,14 @@ import Cell from "./component/Cell";
 import { numToColumn } from "./utility/stringFunctions";
 import { useState } from "react";
 import ContextMenu from "./component/ContextMenu";
+import sortIcon from "./assets/images/sort-icon.png";
 import "./App.css";
 
 const INITIAL = 10;
+const SORT_PROPS = {
+  colIndex: null,
+  sortType: null, // 0 for ascending and 1 for descending
+};
 
 function App() {
   const [gridData, setGridData] = useState(
@@ -16,6 +21,7 @@ function App() {
   const [yPos, setYPos] = useState("0px");
   const [showMenu, setShowMenu] = useState(false);
   const [menuIndex, setMenuIndex] = useState(null);
+  const [sortProps, setSortProps] = useState(SORT_PROPS);
 
   const handleChange = (value, x, y) => {
     let d = JSON.parse(JSON.stringify(gridData));
@@ -39,21 +45,33 @@ function App() {
 
   const insertCol = (rightOrLeft) => {
     let indextoAdd;
-    indextoAdd = menuIndex
-    if(rightOrLeft === 'left') {
+    indextoAdd = menuIndex;
+    if (rightOrLeft === "left") {
       indextoAdd -= 1;
     }
     let data = JSON.parse(JSON.stringify(gridData));
     data.forEach((row, index) => {
-      data[index].splice(indextoAdd+1, 0, '');
-    })
+      data[index].splice(indextoAdd + 1, 0, "");
+    });
     setGridData(data);
-    console.log(data);
   };
 
-  const sortByCol = () => {
+  const sortByCol = (i) => {
+    let data = JSON.parse(JSON.stringify(gridData));
+    let newSortProps = SORT_PROPS;
+    newSortProps.colIndex = i;
     
-  }
+    if (sortProps.colIndex === i && sortProps.sortType === 0) {
+      // if it's not descending, make it descending
+      data.sort((a, b) => (a[i] === b[i] ? 0 : a[i] < b[i] ? 1 : -1));
+      newSortProps.sortType = 1;
+    } else {
+      data.sort((a, b) => (a[i] === b[i] ? 0 : a[i] < b[i] ? -1 : 1));
+      newSortProps.sortType = 0;
+    }
+    setGridData(data);
+    setSortProps(newSortProps);
+  };
 
   return (
     <div className="App" onClick={closeContextMenu}>
@@ -61,8 +79,21 @@ function App() {
       <section className="col-names-row">
         <div className="cell"></div>
         {gridData[0].map((r, i) => (
-          <div onContextMenu={(e) => openContextMenu(e, i)} className="cell" onClick={() => sortByCol(i)}>
+          <div
+            onContextMenu={(e) => openContextMenu(e, i)}
+            className="cell"
+            onClick={() => sortByCol(i)}
+          >
             {numToColumn(i + 1)}
+            {sortProps.colIndex === i && (
+              <img
+                className={`sort-icon ${
+                  sortProps.sortType === 0 && "invert-img"
+                }`}
+                src={sortIcon}
+                alt="Col sort"
+              />
+            )}
           </div>
         ))}
       </section>
