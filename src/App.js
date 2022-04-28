@@ -2,6 +2,7 @@ import { useCallback } from "react";
 
 import Cell from "./component/Cell";
 import { numToColumn } from "./utility/stringFunctions";
+import { deepCopyArray } from "./utility/arrayFunctions";
 import { useState } from "react";
 import ContextMenu from "./component/ContextMenu";
 import sortIcon from "./assets/images/sort-icon.png";
@@ -15,7 +16,7 @@ const SORT_PROPS = {
 
 function App() {
   const [gridData, setGridData] = useState(
-    Array.from(new Array(INITIAL), () => new Array(INITIAL).fill(""))
+    Array(INITIAL).fill('').map(() => Array(INITIAL).fill(''))
   );
   const [xPos, setXPos] = useState("0px");
   const [yPos, setYPos] = useState("0px");
@@ -24,7 +25,7 @@ function App() {
   const [sortProps, setSortProps] = useState(SORT_PROPS);
 
   const handleChange = (value, x, y) => {
-    let d = JSON.parse(JSON.stringify(gridData));
+    let d = deepCopyArray(gridData);
     d[x][y] = value;
     setGridData(d);
   };
@@ -49,7 +50,7 @@ function App() {
     if (rightOrLeft === "left") {
       indextoAdd -= 1;
     }
-    let data = JSON.parse(JSON.stringify(gridData));
+    let data = deepCopyArray(gridData);
     data.forEach((row, index) => {
       data[index].splice(indextoAdd + 1, 0, "");
     });
@@ -57,7 +58,7 @@ function App() {
   };
 
   const sortByCol = (i) => {
-    let data = JSON.parse(JSON.stringify(gridData));
+    let data = deepCopyArray(gridData);
     let newSortProps = SORT_PROPS;
     newSortProps.colIndex = i;
     
