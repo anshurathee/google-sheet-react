@@ -2,9 +2,16 @@
 
 ## Deployed URL: [Link](https://excel-sheet.netlify.app/)
 ## Features: 
-    1. Use the sheet as a normal excel sheet
-    2. Right click on column name to add a column
-    3. Click on column name to sort the data
+1. Use the sheet as a normal excel sheet
+2. Right click on column name to add a column
+3. Click on column name to sort the data
+4. Solve expressions like Addition, Difference, Multiply. In order to use this, start the value with an `=` sign followed by the expression as mentioned below:
+
+    a. Addition => `=SUM(2,6,5) //13`
+
+    b. Difference => `=SUB(10,2,1) //7 (10-2-1)`
+
+    c. Multiply => `=MUL(4,2,3) //24`
 
 ## About the project structure
 
